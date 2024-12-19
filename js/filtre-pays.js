@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     bouton.addEventListener("click", () => {
       const country = bouton.getAttribute("data-country");
 
+      // Requête API REST
       fetch(
         `${filtrePaysData.restUrl}?search=${encodeURIComponent(
           country
@@ -22,12 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
             resultatsContainer.innerHTML = data
               .map(
                 (post) => `
-                  <div class="destination">
-                    <h3>${post.title.rendered}</h3>
-                  </div>
-                `
+                            <div class="destination">
+                                <h3 class="titre-destination">${post.title.rendered}</h3>
+                                <div class="description-destination" style="display: none;">
+                                    ${post.excerpt.rendered}
+                                </div>
+                            </div>
+                        `
               )
               .join("");
+
+            // Ajouter l'effet d'accordéon
+            document.querySelectorAll(".titre-destination").forEach((titre) => {
+              titre.addEventListener("click", () => {
+                const description = titre.nextElementSibling;
+                description.style.display =
+                  description.style.display === "block" ? "none" : "block";
+              });
+            });
           } else {
             resultatsContainer.innerHTML =
               "<p>Aucune destination trouvée pour ce pays.</p>";
