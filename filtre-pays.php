@@ -2,7 +2,8 @@
 /*
 Plugin Name: Filtre Pays
 Description: Plugin pour afficher les destinations par pays via l'API REST de WordPress.
-Author: Emilie Desmarais
+Version: 1.0
+Author: Votre Nom
 */
 
 function charger_scripts_filtre_pays() {
@@ -20,6 +21,10 @@ function charger_scripts_filtre_pays() {
         [],
         filemtime(plugin_dir_path(__FILE__) . 'style.css')
     );
+
+    wp_localize_script('filtre-pays-js', 'filtrePaysData', [
+        'restUrl' => esc_url(home_url('/wp-json/wp/v2/posts')),
+    ]);
 }
 add_action('wp_enqueue_scripts', 'charger_scripts_filtre_pays');
 
